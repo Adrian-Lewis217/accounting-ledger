@@ -169,9 +169,8 @@ public class FinancialTracker {
             scanner.nextLine();
 
             // if statement for when they enter a positive number
-            if (amount <= 0) {
-                System.out.println("Amount must be greater than 0.");
-                return;
+            if (amount >= 0) {
+                amount = -Math.abs(amount);
             }
 
             transactions.add(new Transaction(dateTime, description, vendor, amount));
