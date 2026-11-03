@@ -105,7 +105,6 @@ public class FinancialTracker {
             br.close();
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -136,7 +135,7 @@ public class FinancialTracker {
 
             // if statement for when they enter a negative number
             if (amount <= 0) {
-                System.out.println("Amount must be greather than 0.");
+                System.out.println("Amount must be greater than 0.");
                 return;
             }
 
@@ -146,10 +145,8 @@ public class FinancialTracker {
 
             bufferedWriter.close();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println("Error: " + e.getMessage());
         }
-
-
     }
 
     /**
@@ -159,6 +156,32 @@ public class FinancialTracker {
      */
     private static void addPayment(Scanner scanner) {
         // TODO
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
+            System.out.print("Enter date and time(yyyy-MM-dd|HH:mm:ss): ");
+            String dateTime = scanner.nextLine();
+            System.out.print("Enter description: ");
+            String description = scanner.nextLine();
+            System.out.print("Enter vendor: ");
+            String vendor = scanner.nextLine();
+            System.out.print("Enter amount: ");
+            double amount = scanner.nextDouble();
+            scanner.nextLine();
+
+            // if statement for when they enter a positive number
+            if (amount <= 0) {
+                System.out.println("Amount must be greater than 0.");
+                return;
+            }
+
+            transactions.add(new Transaction(dateTime, description, vendor, amount));
+            bufferedWriter.write(dateTime + "|" + description + "|" + vendor + "|" + amount);
+            bufferedWriter.newLine();
+
+            bufferedWriter.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /* ------------------------------------------------------------------
