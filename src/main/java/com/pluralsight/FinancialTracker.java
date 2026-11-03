@@ -83,6 +83,14 @@ public class FinancialTracker {
 
         // Reading the file line by line and splitting
         try {
+
+            // if the file doesn't exist
+            File file = new File(FILE_NAME);
+            if (!file.exists()) {
+                System.out.println("File does not exist");
+                file.createNewFile();
+            }
+
             String line;
             BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
             while ((line = br.readLine()) != null){
@@ -125,6 +133,13 @@ public class FinancialTracker {
             System.out.print("Enter amount: ");
             double amount = scanner.nextDouble();
             scanner.nextLine();
+
+            // if statement for when they enter a negative number
+            if (amount <= 0) {
+                System.out.println("Amount must be greather than 0.");
+                return;
+            }
+
             transactions.add(new Transaction(dateTime, description, vendor, amount));
             bufferedWriter.write(dateTime + "|" + description + "|" + vendor + "|" + amount);
             bufferedWriter.newLine();
