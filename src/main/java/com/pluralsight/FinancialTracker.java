@@ -1,7 +1,10 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -79,6 +82,25 @@ public class FinancialTracker {
         // TODO: create file if it does not exist, then read each line,
         //       parse the five fields, build a Transaction object,
         //       and add it to the transactions list.
+
+        // Reading the file line by line and splitting
+        try {
+            String line;
+            BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
+            while ((line = br.readLine()) != null){
+                String[] sections = line.split("\\|");
+                LocalDate date = LocalDate.parse(sections[0]);
+                LocalTime time = LocalTime.parse(sections[1]);
+                String description = sections[2];
+                String vendor = sections[3];
+                double amount = Double.parseDouble(sections[4]);
+                transactions.add(new Transaction(date, time, description, vendor, amount));
+            }
+            br.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /* ------------------------------------------------------------------
@@ -93,6 +115,18 @@ public class FinancialTracker {
      */
     private static void addDeposit(Scanner scanner) {
         // TODO
+        // prompt the user for all fields
+        System.out.print("Enter date and time(yyyy-MM-dd HH:mm:ss): ");
+        String dateTime = scanner.nextLine();
+        System.out.print("Enter description: ");
+        String description = scanner.nextLine();
+        System.out.print("Enter vendor: ");
+        String vendor = scanner.nextLine();
+        System.out.print("Enter amount: ");
+        double amount = scanner.nextDouble();
+        scanner.nextLine();
+        transactions.add(new Transaction(dateTime, description, vendor, amount));
+
     }
 
     /**
