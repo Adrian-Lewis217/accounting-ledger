@@ -291,6 +291,10 @@ public class FinancialTracker {
                     filterTransactionsByDate(start, end);
                 }
                 case "5" -> {/* TODO – prompt for vendor then report */
+                    System.out.print("Enter Vendor: ");
+                    String vendor = scanner.nextLine();
+
+                    filterTransactionsByVendor(vendor);
                 }
                 case "6" -> customSearch(scanner);
                 case "0" -> running = false;
@@ -317,8 +321,6 @@ public class FinancialTracker {
     private static void filterTransactionsByVendor(String vendor) {
         // TODO – iterate transactions, print those with matching vendor
         for (Transaction transaction : transactions) {
-            vendor = transaction.getVendor();
-
             // in case user enter the vendor's name in lower case
             if (transaction.getVendor().equalsIgnoreCase(vendor)){
                 System.out.println(transaction);
@@ -329,12 +331,59 @@ public class FinancialTracker {
     private static void customSearch(Scanner scanner) {
         // TODO – prompt for any combination of date range, description,
         //        vendor, and exact amount, then display matches
+
+        // search through the arraylist for any combination of fields the user enters
+        System.out.print("Start date (leave blank if none): ");
+        String start = scanner.nextLine();
+        LocalDate startInput = parseDate(start,scanner);
+
+        System.out.print("End date (leave blank if none): ");
+        String end = scanner.nextLine();
+        LocalDate endInput = parseDate(end,scanner);
+
+        System.out.print("Description (leave blank if none): ");
+        String description = scanner.nextLine();
+        System.out.print("Vendor (leave blank if none): ");
+        String vendor = scanner.nextLine();
+
+        System.out.print("Amount date (leave blank if none): ");
+        String amount = scanner.nextLine();
+        Double amountInput = parseDouble(amount,scanner);
+
+        try {
+
+        for (Transaction transaction : transactions) {
+            // if matches is false then skip
+            boolean matches = true;
+
+            if (!description.isBlank() && !transaction.getDescription().equalsIgnoreCase(description)) {
+                matches = false;
+            }
+            if (!vendor.isBlank() && !transaction.getVendor().equalsIgnoreCase(vendor)) {
+                matches = false;
+            }
+            if (amountInput != null && transaction.getAmount() != amountInput) {
+                matches = false;
+            }
+            if (startInput != null && transaction.getDate().isBefore(startInput)){
+                matches = false;
+            }
+            if (endInput != null && transaction.getDate().isAfter(endInput)){
+                matches = false;
+            }
+            if (matches){
+                System.out.println(transaction);
+            }
+        }
+    } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /* ------------------------------------------------------------------
        Utility parsers (you can reuse in many places)
        ------------------------------------------------------------------ */
-    private static LocalDate parseDate(String s) {
+    private static LocalDate parseDate(String s, Scanner scanner) {
         /* TODO – return LocalDate or null */
         try {
             return LocalDate.parse(s);
@@ -344,8 +393,13 @@ public class FinancialTracker {
         return null;
     }
 
-    private static Double parseDouble(String s) {
+    private static Double parseDouble(String s, Scanner scanner) {
         /* TODO – return Double   or null */
+        try {
+            return Double.parseDouble(s);
+        } catch (Exception e) {
+            System.out.println("Invalid double format");
+        }
         return null;
     }
 }
