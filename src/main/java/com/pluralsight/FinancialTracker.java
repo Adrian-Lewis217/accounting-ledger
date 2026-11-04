@@ -158,6 +158,7 @@ public class FinancialTracker {
         // TODO
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
+
             System.out.print("Enter date and time(yyyy-MM-dd|HH:mm:ss): ");
             String dateTime = scanner.nextLine();
             System.out.print("Enter description: ");
@@ -215,6 +216,8 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static void displayLedger() {
         /* TODO – print all transactions in column format, newest first */
+
+        // using for i for positions in the transactions in the arrayList
         for (int i = transactions.size() - 1; i >= 0; i--) {
             System.out.println(transactions.get(i));
         }
@@ -222,6 +225,8 @@ public class FinancialTracker {
 
     private static void displayDeposits() {
         /* TODO – only amount > 0               */
+
+        // used for each to
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() > 0){
                 System.out.println(transaction);
@@ -257,11 +262,36 @@ public class FinancialTracker {
             String input = scanner.nextLine().trim();
 
             switch (input) {
-                case "1" -> filterTransactionsByDate();{/* TODO – month-to-date report */ }
-                case "2" -> filterTransactionsByDate();{/* TODO – previous month report */ }
-                case "3" -> filterTransactionsByDate();{/* TODO – year-to-date report   */ }
-                case "4" -> filterTransactionsByDate();{/* TODO – previous year report  */ }
-                case "5" -> filterTransactionsByVendor();{/* TODO – prompt for vendor then report */ }
+                case "1" -> {/* TODO – month-to-date report */
+                    LocalDate start = LocalDate.now().withDayOfMonth(1);
+                    LocalDate end = LocalDate.now();
+
+                    filterTransactionsByDate(start, end);
+                }
+                case "2" -> {/* TODO – previous month report */
+                    LocalDate previousMonth = LocalDate.now().minusMonths(1);
+
+                    LocalDate start = previousMonth.withDayOfMonth(1);
+                    LocalDate end = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth());
+
+                    filterTransactionsByDate(start, end);
+                }
+                case "3" -> {/* TODO – year-to-date report   */
+                    LocalDate start = LocalDate.now().withDayOfYear(1);
+                    LocalDate end = LocalDate.now();
+
+                    filterTransactionsByDate(start, end);
+                }
+                case "4" -> {/* TODO – previous year report  */
+                    LocalDate previousYear = LocalDate.now().minusYears(1);
+
+                    LocalDate start = previousYear.withDayOfMonth(1);
+                    LocalDate end = previousYear.withDayOfMonth(previousYear.lengthOfMonth());
+
+                    filterTransactionsByDate(start, end);
+                }
+                case "5" -> {/* TODO – prompt for vendor then report */
+                }
                 case "6" -> customSearch(scanner);
                 case "0" -> running = false;
                 default -> System.out.println("Invalid option");
@@ -274,6 +304,7 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
         // TODO – iterate transactions, print those within the range
+
         for (Transaction transaction : transactions) {
             LocalDate date = transaction.getDate();
 
@@ -297,6 +328,11 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static LocalDate parseDate(String s) {
         /* TODO – return LocalDate or null */
+        try {
+            return LocalDate.parse(s);
+        } catch (Exception e) {
+            System.out.println("Invalid date format");
+        }
         return null;
     }
 
