@@ -382,11 +382,9 @@ public class FinancialTracker {
         // search through the arraylist for any combination of fields the user enters
         System.out.print("Start date (leave blank if none): ");
         String start = scanner.nextLine();
-        LocalDate startInput = parseDate(start,scanner);
 
         System.out.print("End date (leave blank if none): ");
         String end = scanner.nextLine();
-        LocalDate endInput = parseDate(end,scanner);
 
         System.out.print("Description (leave blank if none): ");
         String description = scanner.nextLine();
@@ -395,11 +393,34 @@ public class FinancialTracker {
 
         System.out.print("Amount date (leave blank if none): ");
         String amount = scanner.nextLine();
-        Double amountInput = parseDouble(amount,scanner);
+
+        // no filter
+        if (start.isBlank() && end.isBlank() && description.isBlank() && vendor.isBlank() && amount.isBlank()){
+            System.out.println("No Filter");
+            return;
+        }
 
         try {
+            LocalDate startInput = null;
+            LocalDate endInput = null;
+            Double amountInput = null;
 
-        for (Transaction transaction : transactions) {
+            if (!start.isBlank()){
+                startInput = parseDate(start, scanner);
+            }
+
+            if (!end.isBlank()){
+                endInput = parseDate(end, scanner);
+            }
+
+            if (!amount.isBlank()){
+                amountInput = parseDouble(amount, scanner);
+            }
+
+            // check if transactions were founded
+            boolean found = false;
+
+            for (Transaction transaction : transactions) {
             // if matches is false then skip
             boolean matches = true;
 
@@ -422,6 +443,9 @@ public class FinancialTracker {
                 System.out.println(transaction);
             }
         }
+            if (!found){
+                System.out.println("No transactions found.");
+            }
     } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
