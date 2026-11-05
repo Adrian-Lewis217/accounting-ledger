@@ -342,22 +342,36 @@ public class FinancialTracker {
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
         // TODO – iterate transactions, print those within the range
 
-        for (Transaction transaction : transactions) {
-            LocalDate date = transaction.getDate();
+        try {
+            for (Transaction transaction : transactions) {
+                LocalDate date = transaction.getDate();
 
-            if (!date.isBefore(start) && !date.isAfter(end)){
-                System.out.println(transaction);
+                if (!date.isBefore(start) && !date.isAfter(end)){
+                    System.out.println(transaction);
+                } else {
+                    System.out.println("No transactions found");
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
+
     }
 
     private static void filterTransactionsByVendor(String vendor) {
         // TODO – iterate transactions, print those with matching vendor
-        for (Transaction transaction : transactions) {
-            // in case user enter the vendor's name in lower case
-            if (transaction.getVendor().equalsIgnoreCase(vendor)){
-                System.out.println(transaction);
+
+        try {
+            for (Transaction transaction : transactions) {
+                // in case user enter the vendor's name in lower case
+                if (transaction.getVendor().equalsIgnoreCase(vendor)){
+                    System.out.println(transaction);
+                } else {
+                    System.out.println("Vendor not found");
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
