@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 /*
@@ -123,15 +124,31 @@ public class FinancialTracker {
         // prompt the user for all fields
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
-            System.out.print("Enter date and time(yyyy-MM-dd|HH:mm:ss): ");
-            String dateTime = scanner.nextLine();
+
+            System.out.print("Enter date (MM/d/yyyy): ");
+            String dateInput = scanner.nextLine().trim();
+            System.out.print("Enter time (h:mm AM/PM): ");
+            String timeInput = scanner.nextLine().trim().toUpperCase();
             System.out.print("Enter description: ");
-            String description = scanner.nextLine();
+            String description = scanner.nextLine().trim();
             System.out.print("Enter vendor: ");
-            String vendor = scanner.nextLine();
+            String vendor = scanner.nextLine().trim();
             System.out.print("Enter amount: ");
             double amount = scanner.nextDouble();
             scanner.nextLine();
+
+            // Change format of date and time
+            DateTimeFormatter userDateFmt = DateTimeFormatter.ofPattern("MM/d/yyyy");
+            DateTimeFormatter userTimeFmt = DateTimeFormatter.ofPattern("h:mm a");
+
+            LocalDate date = LocalDate.parse(dateInput, userDateFmt);
+            LocalTime time = LocalTime.parse(timeInput, userTimeFmt);
+
+            String formattedDate = date.format(DATE_FMT);
+            String formattedTime = time.format(TIME_FMT);
+
+            // combine date and time
+            String dateTime = formattedDate + "|" + formattedTime;
 
             // if statement for when they enter a negative number
             if (amount <= 0) {
@@ -139,7 +156,7 @@ public class FinancialTracker {
                 return;
             }
 
-            transactions.add(new Transaction(dateTime, description, vendor, amount));
+            transactions.add(new Transaction(date, time, description, vendor, amount));
             bufferedWriter.write(dateTime + "|" + description + "|" + vendor + "|" + amount);
             bufferedWriter.newLine();
 
@@ -159,12 +176,14 @@ public class FinancialTracker {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
 
-            System.out.print("Enter date and time(yyyy-MM-dd|HH:mm:ss): ");
-            String dateTime = scanner.nextLine();
+            System.out.print("Enter date (MM/d/yyyy): ");
+            String dateInput = scanner.nextLine().trim();
+            System.out.print("Enter time (h:mm AM/PM): ");
+            String timeInput = scanner.nextLine().trim().toUpperCase();
             System.out.print("Enter description: ");
-            String description = scanner.nextLine();
+            String description = scanner.nextLine().trim();
             System.out.print("Enter vendor: ");
-            String vendor = scanner.nextLine();
+            String vendor = scanner.nextLine().trim();
             System.out.print("Enter amount: ");
             double amount = scanner.nextDouble();
             scanner.nextLine();
@@ -174,7 +193,21 @@ public class FinancialTracker {
                 amount = -Math.abs(amount);
             }
 
-            transactions.add(new Transaction(dateTime, description, vendor, amount));
+            // Change format of date and time
+            DateTimeFormatter userDateFmt = DateTimeFormatter.ofPattern("MM/d/yyyy");
+            DateTimeFormatter userTimeFmt = DateTimeFormatter.ofPattern("h:mm a");
+
+            LocalDate date = LocalDate.parse(dateInput, userDateFmt);
+            LocalTime time = LocalTime.parse(timeInput, userTimeFmt);
+
+            String formattedDate = date.format(DATE_FMT);
+            String formattedTime = time.format(TIME_FMT);
+
+            // combine date and time
+            String dateTime = formattedDate + "|" + formattedTime;
+
+
+            transactions.add(new Transaction(date, time, description, vendor, amount));
             bufferedWriter.write(dateTime + "|" + description + "|" + vendor + "|" + amount);
             bufferedWriter.newLine();
 
