@@ -2,11 +2,9 @@ package com.pluralsight;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 /*
@@ -45,6 +43,9 @@ public class FinancialTracker {
         loadTransactions(FILE_NAME);
 
         Scanner scanner = new Scanner(System.in);
+
+        displayLogo();
+
         boolean running = true;
 
         while (running) {
@@ -86,16 +87,29 @@ public class FinancialTracker {
         try {
 
             // if the file doesn't exist
-            File file = new File(FILE_NAME);
+            File file = new File(fileName);
             if (!file.exists()) {
                 System.out.println("File does not exist");
                 file.createNewFile();
+                return;
             }
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
 
             String line;
-            BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
+
             while ((line = br.readLine()) != null){
+
+                if(line.isBlank()){
+                    continue;
+                }
+
                 String[] sections = line.split("\\|");
+
+                if(sections.length != 5){
+                    System.out.println("Invalid record: " + line);
+                    continue;
+                }
+
                 LocalDate date = LocalDate.parse(sections[0]);
                 LocalTime time = LocalTime.parse(sections[1]);
                 String description = sections[2];
@@ -260,8 +274,15 @@ public class FinancialTracker {
         /* TODO – only amount > 0               */
 
         // used for each to
-        for (Transaction transaction : transactions) {
+        /*for (Transaction transaction : transactions) {
             if (transaction.getAmount() > 0){
+                System.out.println(transaction);
+            }
+        }*/
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = transactions.get(i);
+
+            if (transaction.getAmount() > 0) {
                 System.out.println(transaction);
             }
         }
@@ -269,8 +290,15 @@ public class FinancialTracker {
 
     private static void displayPayments() {
         /* TODO – only amount < 0               */
-        for (Transaction transaction : transactions) {
+        /*for (Transaction transaction : transactions) {
             if (transaction.getAmount() < 0){
+                System.out.println(transaction);
+            }
+        }*/
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = transactions.get(i);
+
+            if (transaction.getAmount() < 0) {
                 System.out.println(transaction);
             }
         }
@@ -318,8 +346,8 @@ public class FinancialTracker {
                 case "4" -> {/* TODO – previous year report  */
                     LocalDate previousYear = LocalDate.now().minusYears(1);
 
-                    LocalDate start = previousYear.withDayOfMonth(1);
-                    LocalDate end = previousYear.withDayOfMonth(previousYear.lengthOfMonth());
+                    LocalDate start = previousYear.withDayOfYear(1);
+                    LocalDate end = previousYear.withDayOfYear(previousYear.lengthOfYear());
 
                     filterTransactionsByDate(start, end);
                 }
@@ -343,14 +371,18 @@ public class FinancialTracker {
         // TODO – iterate transactions, print those within the range
 
         try {
+            boolean found = false;
+
             for (Transaction transaction : transactions) {
                 LocalDate date = transaction.getDate();
 
                 if (!date.isBefore(start) && !date.isAfter(end)){
                     System.out.println(transaction);
-                } else {
-                    System.out.println("No transactions found");
+                    found = true;
                 }
+            }
+            if (!found){
+                System.out.println("No transactions found");
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -362,13 +394,16 @@ public class FinancialTracker {
         // TODO – iterate transactions, print those with matching vendor
 
         try {
+            boolean found = false;
             for (Transaction transaction : transactions) {
                 // in case user enter the vendor's name in lower case
                 if (transaction.getVendor().equalsIgnoreCase(vendor)){
                     System.out.println(transaction);
-                } else {
-                    System.out.println("Vendor not found");
+                    found = true;
                 }
+            }
+            if (!found){
+                System.out.println("No transactions found");
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -391,7 +426,7 @@ public class FinancialTracker {
         System.out.print("Vendor (leave blank if none): ");
         String vendor = scanner.nextLine();
 
-        System.out.print("Amount date (leave blank if none): ");
+        System.out.print("Amount (leave blank if none): ");
         String amount = scanner.nextLine();
 
         // no filter
@@ -441,6 +476,7 @@ public class FinancialTracker {
             }
             if (matches){
                 System.out.println(transaction);
+                found = true;
             }
         }
             if (!found){
@@ -457,7 +493,10 @@ public class FinancialTracker {
     private static LocalDate parseDate(String s, Scanner scanner) {
         /* TODO – return LocalDate or null */
         try {
-            return LocalDate.parse(s);
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern("MM/d/yyyy");
+
+            return LocalDate.parse(s, formatter);
         } catch (Exception e) {
             System.out.println("Invalid date format");
         }
@@ -472,5 +511,19 @@ public class FinancialTracker {
             System.out.println("Invalid double format");
         }
         return null;
+    }
+    public static void displayLogo() {
+        System.out.println("""
+    $$$$$$$\\  $$$$$$$\\  $$$$$$$\\  $$\\
+    $$  __$$\\ $$  __$$\\ $$  __$$\\ $$ |
+    $$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |
+    $$$$$$$  |$$$$$$$  |$$$$$$$  |$$ |
+    $$  __$$< $$  ____/ $$  ____/ $$ |
+    $$ |  $$ |$$ |      $$ |      $$ |
+    $$$$$$$  |$$ |      $$ |      $$$$$$$$\\
+    \\_______/ \\__|      \\__|      \\________|
+
+        BANK OF POTATO PERSONAL LEDGER
+    """);
     }
 }

@@ -1,4 +1,4 @@
-# Project Title
+# Bank of Potato: Personal Ledger
 
 <!-- HOW TO USE THIS TEMPLATE
      Save it as README.md at the root of your project, next to pom.xml. Replace every comment like this one
@@ -8,11 +8,16 @@
 
 <!-- One sentence under the title: what the app is, for whom.
      Example: A console app that keeps a store's inventory in a csv file and lets a clerk search it. -->
+A console app that keeps record of transactions in a csv file and lets a account holder to view their reports
 
 ## Description of the Project
 
 <!-- Three to five sentences. What the application does, who uses it, what problem it solves.
      Write it for someone who has never seen the workbook: a recruiter, a classmate, you in six months. -->
+The personal ledger is a java console application for an account holders or system users to keep track of their 
+transactions. Each transaction keep track of the date,time,description,vendor,and amount in the csv file, when a user or
+holder enters the information. Account holders can search through their file for any deposits and payment made no matter
+the date,time, or vendor. This will helps account holders with managing their spending and income with ease.
 
 
 ## Features
@@ -24,8 +29,8 @@
      - Shows every product in the store
      - Searches products by name (bonus) -->
 
--
--
+- add new deposits and payments and save to the csv file
+- shows newest entries first
 -
 
 ## User Stories
