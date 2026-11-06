@@ -15,10 +15,9 @@ A console app that keeps record of transactions in a csv file and lets a account
 
 <!-- Three to five sentences. What the application does, who uses it, what problem it solves.
      Write it for someone who has never seen the workbook: a recruiter, a classmate, you in six months. -->
-The personal ledger is a java console application for an account holders or system users to keep track of their 
-transactions. Each transaction keep track of the date,time,description,vendor,and amount in the csv file, when a user or
-holder enters the information. Account holders can search through their file for any deposits and payment made no matter
-the date,time, or vendor. This will helps account holders with managing their spending and income with ease.
+The personal ledger is a java console application that allows account holders to record and manage financial transactions. 
+The application stores the transaction data in a CSV file, which enables users to view reports, search for transactions, and track deposits and payments. 
+This will helps account holders with managing their spending and income with ease.
 
 
 ## Features
@@ -30,10 +29,10 @@ the date,time, or vendor. This will helps account holders with managing their sp
      - Shows every product in the store
      - Searches products by name (bonus) -->
 
-- add new deposits and payments and save to the csv file
-- shows newest entries first
-- prints requested transactions
-- Searches transactions by any entered information
+- Add new deposits and payments and save them to a CSV file
+- Display the newest transactions first
+- Print transaction reports on demand
+- Search transactions using keywords such as date,time,description,vendor,or amount
 
 ## User Stories
 
@@ -41,10 +40,9 @@ the date,time, or vendor. This will helps account holders with managing their sp
      As a [type of user], I want [some goal] so that [some reason].
      Same text as the cards on your GitHub project board. -->
 
-- As a user, I want to see the newest entries first, so that I can see recent added transactions in my account
-- As a user, I want to add a deposit with the date,time,description,vendor,and amount, so that I know when it was saved 
-and where the transaction was made
-- As a user, I want to search for a specific entrée or entries with one or two enters, so that I could find it in my ledger
+- As a user, I want to see the newest entries first, so that I can see recent added transactions.
+- As a user, I want to add a deposit or payment with the date,time,description,vendor,and amount, so that I can maintain an accurate record of my transactions.
+- As a user, I want to search for specific transactions using one or two search criteria, so that I can easily locate information in my ledger.
 
 ## Setup
 
@@ -101,15 +99,15 @@ and where the transaction was made
                 System.out.println(transaction);
             }
 ```
-This code prints all the deposits in the file by using only the positive amount. I write the code like this to display the 
-new entries first. I like this code because it open my mind to different ways I can use it for other projects.
+This code displays all the deposits in the file with a positive amount. I write the code like this to display the 
+new entries first. I am proud of this solution because it helped me think differently about how data can be displayed and showed me how a simple loop can be adapted to solve multiple problems in future projects.
 ## Future Work
 
 <!-- What you would add or fix next, one bullet each. Unfinished bonuses belong here. -->
 
 - use while loops for my user inputs
-- add color
-- calculate the total sum of transaction for deposits,payments,and ledger
+- add colored console outputs
+- calculate and display the totals for deposits,payments,and ledger balance
 - write better user stories and sub-tasks
 
 ## Resources
@@ -119,8 +117,8 @@ new entries first. I like this code because it open my mind to different ways I 
 - Java YearUp Fall 2026 hub: <https://raymaroun.github.io/yearup-java-fall2026/>
 - workbook 3: <https://github.com/RayMaroun/yearup-fall-section-8-2026/tree/main/pluralsight/java-development/workbook-3>
 - coPilot AI agent: <https://copilot.cloud.microsoft/chat/agent/T_20b53e3f-d488-d128-27fc-440ed32e7a02.eade2051-4773-4cb0-aa3e-b17cdf11ebd4.gpt.17fde386-a7a1-4dd0-a089-a0b0a70bb567?fromcode=cmmu8qodiz1&lhredirected=1&es=AutoSignIn>
-- website: <https://www.geeksforgeeks.org/java/yearmonth-minusmonths-method-in-java-with-examples/>
-- website: <https://www.tutorialspoint.com/javatime/javatime_monthday_withdayofmonth.htm>
+- GeeksforGeeks: <https://www.geeksforgeeks.org/java/yearmonth-minusmonths-method-in-java-with-examples/>
+- TutorialPoint: <https://www.tutorialspoint.com/javatime/javatime_monthday_withdayofmonth.htm>
 
 ## Author
 
@@ -132,5 +130,5 @@ new entries first. I like this code because it open my mind to different ways I 
 
 <!-- Optional. The people who helped: the instructor, a classmate who debugged with you, a mentor. -->
 
-- Thank you to Raymond for the file reading demo that this app is built on, and the resources and support through the month
-- Thank you to Zion and Maalik for clarification and support you give during the week 
+- Thank you to Raymond for the file reading demo, and the many resources and support.
+- Thank you to Zion and Maalik for clarification and assistance you give during the week.
